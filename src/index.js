@@ -1,6 +1,6 @@
-module.exports = function() {
+module.exports = function({tests} = {}) {
     return {
-        total: 0,
+        total: tests && tests.length || 0,
         passed: 0
     };
 };
