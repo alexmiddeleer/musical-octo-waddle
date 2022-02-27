@@ -16,7 +16,7 @@ const expectResultToHave = (result, {total, passed, allPassed}) => {
 
 test('calling test returns a report', () => {
     const result = testFn();
-    expectResultToHave(result, { total: 0, passed: 0, allPassed: false });
+    expectResultToHave(result, { total: 0, passed: 0, allPassed: true });
 });
 
 test('calling test with a single test', () => {
