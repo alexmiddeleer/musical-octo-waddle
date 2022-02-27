@@ -6,6 +6,7 @@
   },
   "scripts": {
     "test": "jest",
+    "testw": "jest --watch",
     "lint": "eslint tests src"
   }
 }

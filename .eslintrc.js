@@ -4,10 +4,6 @@ module.exports = {
         'es2021': true,
         'node': true
     },
-    'plugins': ['jest'],
-    'env': {
-      'jest/globals': true
-    },
     'extends': 'eslint:recommended',
     'parserOptions': {
         'ecmaVersion': 'latest',
