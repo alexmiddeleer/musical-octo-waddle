@@ -2,9 +2,13 @@ class Result {
     constructor() {
         this.total = 0;
         this.passed = 0;
+        this.failedTests = [];
     }
     get allPassed() {
         return this.total && this.total === this.passed;
+    }
+    recordFailure(test) {
+        this.failedTests.push(test);
     }
 }
 
@@ -16,8 +20,11 @@ module.exports = function({tests, testRunner} = {}) {
     tests = anArray(tests);
     testRunner = aFunction(testRunner);
     result.total = tests.length;
-    result.passed = tests.reduce((total, t) => {
-        return total + testRunner(t) ? 1 : 0;
-    }, 0);
+    tests.forEach(t => {
+        if(!testRunner(t)) {
+            result.recordFailure(t);
+        }
+    });
+    result.passed = tests.length - result.failedTests.length;
     return result;
 };
