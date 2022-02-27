@@ -9,7 +9,9 @@ const expectResultToHave = (result, {total, passed, allPassed}) => {
     expect(result.passed).toBe(passed);
     expect(!!result.allPassed).toBe(!!allPassed);
     expect(Array.isArray(result.failedTests)).toBeTruthy();
+    expect(Array.isArray(result.passedTests)).toBeTruthy();
     expect(result.failedTests.length).toBe(total-passed);
+    expect(result.passedTests.length).toBe(passed);
 };
 
 test('calling test returns a report', () => {
@@ -31,4 +33,5 @@ test('calling test with a single passing test', () => {
         testRunner: allTestsPassTestRunner
     });
     expectResultToHave(result, { total: 1, passed: 1, allPassed: true });
+    expect(result.passedTests[0]).toBe(minimalTest);
 });
