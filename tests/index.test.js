@@ -14,12 +14,12 @@ const expectResultToHave = (result, {total, passed, allPassed}) => {
     expect(result.passedTests.length).toBe(passed);
 };
 
-test('calling test returns a report', () => {
+test('calling default fn returns a report', () => {
     const result = testFn();
     expectResultToHave(result, { total: 0, passed: 0, allPassed: true });
 });
 
-test('calling test with a single test', () => {
+test('calling default fn with a single test', () => {
     const result = testFn({
         tests: [minimalTest]
     });
@@ -27,11 +27,22 @@ test('calling test with a single test', () => {
     expect(result.failedTests[0]).toBe(minimalTest);
 });
 
-test('calling test with a single passing test', () => {
+test('calling default fn with a single passing test', () => {
     const result = testFn({
         tests: [minimalTest],
         testRunner: allTestsPassTestRunner
     });
     expectResultToHave(result, { total: 1, passed: 1, allPassed: true });
     expect(result.passedTests[0]).toBe(minimalTest);
+});
+
+test('calling default fn with consoleWriter fn calls consoleWritern fn w/ printed report', () => {
+    const mockConsoleWriterFn = jest.fn();
+    testFn({
+        tests: [minimalTest],
+        testRunner: allTestsPassTestRunner,
+        consoleWriter: mockConsoleWriterFn
+    });
+    expect(mockConsoleWriterFn).toHaveBeenCalled();
+    expect(mockConsoleWriterFn.mock.lastCall[0]).toContain('PASS');
 });

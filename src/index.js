@@ -1,17 +1,24 @@
-const Result = require('./result.js');
+const Result = require('./result');
+const printReport = require('./print-report');
+const { ensureArray, ensureFn } = require('./ensure');
 
-const anArray = x => Array.isArray(x) ? x : [];
-const aFunction = x => typeof x === 'function' ? x : () => 0;
-
-module.exports = function({tests, testRunner} = {}) {
+function makeResult({tests, testRunner} = {}) {
     const result = new Result();
-    tests = anArray(tests);
-    testRunner = aFunction(testRunner);
+    tests = ensureArray(tests);
+    testRunner = ensureFn(testRunner);
     tests.forEach(t => {
         if(testRunner(t)) {
             return result.recordPass(t);
         }
         result.recordFail(t);
     });
+    return result;
+}
+
+module.exports = function run({tests, testRunner, consoleWriter} = {}) {
+    const result = makeResult({tests, testRunner});
+
+    ensureFn(consoleWriter)(printReport(result));
+
     return result;
 };

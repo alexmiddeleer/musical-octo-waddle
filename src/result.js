@@ -18,4 +18,8 @@ module.exports = class Result {
     recordPass(test) {
         this.passedTests.push(test);
     }
+    recordResult(passed, test) {
+        if(passed) this.recordPass(test);
+        else this.recordFail(test);
+    }
 };
