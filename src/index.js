@@ -6,12 +6,7 @@ function makeResult({tests, testRunner} = {}) {
     const result = new Result();
     tests = ensureArray(tests);
     testRunner = ensureFn(testRunner);
-    tests.forEach(t => {
-        if(testRunner(t)) {
-            return result.recordPass(t);
-        }
-        result.recordFail(t);
-    });
+    tests.forEach(t => result.recordResult(testRunner(t), t));
     return result;
 }
 
